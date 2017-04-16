@@ -1,0 +1,11 @@
+sub PopulateFontList()
+	local fontname$, fontlist$
+	fontlist$=path$ + "/fonts.txt"
+	open fontlist$ for reading as #1
+	while (not(EOF(1)))
+		line input #1 fontname$
+		if fontname$ <> "" listbox add "FontList", fontname$
+	wend
+	close #1
+end sub
+

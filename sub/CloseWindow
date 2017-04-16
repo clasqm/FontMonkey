@@ -1,0 +1,7 @@
+sub CloseWindow()
+	//close down the preview window if it exists
+	if window get "PreviewWindow", "exists" <> 0 window close "PreviewWindow"
+	//Close down the main window
+	window close "MainWindow"
+end sub
+

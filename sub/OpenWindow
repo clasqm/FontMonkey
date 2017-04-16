@@ -1,0 +1,14 @@
+sub OpenWindow()
+	//Setup the main window here
+	window open 100,100 to 242,500, "MainWindow", "Font Selector"
+	window set "MainWindow", "flags", "not-resizable"
+	window set "MainWindow", "flags", "not-zoomable"
+	if CheckConnection() then
+		leavingLoop =1
+		return
+	endif
+	MakeMenu()
+	listbox 0,20 to 141,399, "FontList", 1, "MainWindow"
+	PopulateFontList()
+end sub
+

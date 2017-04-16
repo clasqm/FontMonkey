@@ -1,0 +1,48 @@
+
+//Yabadabbadoo notification
+########DO NOT RENAME THIS FILE!########
+//Yabadabbadoo needs it to function.
+
+//Main Message Loop
+dim msg$(1)
+while(not leavingLoop)
+	nCommands = token(message$, msg$(), "|")
+	for everyCommand = 1 to nCommands
+		if(DEBUG and msg$(everyCommand)<>"") print msg$(everyCommand)
+		switch(msg$(everyCommand))
+			case "_QuitRequested"
+			case "MainWindow:_QuitRequested"
+			case "MainWindow:File:Quit"
+				leavingLoop = true
+				break
+			case "PreviewWindow:_QuitRequested"
+				window close "PreviewWindow"
+				break
+			case "MainWindow:Help:About"
+				Alert ProgramName$ + " " + ProgramVersion$ + "\n" + "by " + AuthorName$ +"\n\n" + ProgramBriefDescription$ + "\n" + ProgramLicense$ + "\n" + ProgramAcknowledgements$, "OK", "none"
+				break
+			case "InstallButton"
+				system("/boot/system/apps/Terminal pkgman install " + downloadname$)
+				if window get "PreviewWindow", "exists" <> 0 CheckFontStatus()
+				break
+			case "UnInstallButton"
+				if CheckLocalInstallation() = 1 then
+					 break
+				else
+					system("/boot/system/apps/Terminal pkgman uninstall " + downloadname$)
+					if window get "PreviewWindow", "exists" <> 0 CheckFontStatus()
+				endif
+				break
+			default
+				break
+		end switch
+		if left$((msg$(everyCommand)), 17) = "FontList:_Select:" then
+			MakePreview(mid$((msg$(everyCommand)), 18))
+		endif
+	next everyCommand
+wend
+
+CloseWindow()
+
+end
+

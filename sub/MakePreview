@@ -1,0 +1,26 @@
+sub MakePreview(fontnumber$)
+	local fullfontname$,fontname$, previewgrfx$,errcode
+	fullfontname$ = listbox get$ "FontList", val(fontnumber$)
+	fontname$=ParsePreviewName$(fullfontname$)
+	downloadname$= fontname$ + "font"
+	previewgrfx$ =  path$ + "/previews/" + fontname$
+	if FileExists(previewgrfx$) = 0 previewgrfx$ =  path$ + "/previews/default"
+	close #1
+	errcode = bitmap image previewgrfx$, "FontPreview"
+	if window get "PreviewWindow", "exists" = 0 then
+		window open 280, 100 to 792, 386, "PreviewWindow", ""
+		button 50,259 to 251,283, "InstallButton", "Install this font", "PreviewWindow" 
+		button 261,259 to 462,283, "UnInstallButton", "Remove this font", "PreviewWindow" 
+		option set "InstallButton", "enabled", 0
+		option set "UnInstallButton", "enabled", 0
+		window set "PreviewWindow", "flags", "not-resizable"
+		window set "PreviewWindow", "look", "floating"
+		window set "PreviewWindow", "flags", "not-zoomable"
+	endif
+	window set "PreviewWindow", "title", "Preview of " + fullfontname$
+	draw bitmap 0,0, "FontPreview", "copy", "PreviewWindow"
+	bitmap remove "FontPreview"
+	CheckFontStatus()
+	window set "MainWindow", "activate"
+end sub
+

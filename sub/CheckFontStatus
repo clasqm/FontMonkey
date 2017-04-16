@@ -1,0 +1,14 @@
+sub CheckFontStatus()
+	local installedpkgs$
+	if window get "PreviewWindow", "exists" = 0  return //program will crash if buttons do not exist
+	option set "InstallButton", "enabled", 0
+	option set "UnInstallButton", "enabled", 0
+	installedpkgs$ = system$("ls -1 /boot/system/packages/*.hpkg")
+	installedpkgs$ = installedpkgs$ + system$("ls -1 /boot/home/config/packages/*.hpkg")
+	if instr(installedpkgs$, downloadname$) = 0 then
+		option set "InstallButton", "enabled", 1
+	else
+		option set "UnInstallButton", "enabled", 1
+	endif
+end sub
+

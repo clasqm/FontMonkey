@@ -1,0 +1,16 @@
+sub CheckLocalInstallation()
+//pkgman can only uninstall from /boot/system/packages ATM
+//locally installed packages must be removed manually
+//which is how they got there in the first place, so ...
+local installedpkgs$
+	installedpkgs$ = system$("ls -1 /boot/home/config/packages/*.hpkg")
+	if instr(installedpkgs$, downloadname$) = 0 then
+		return 0
+	else
+		alert "The package " + downloadname$ + " appears to be installed in /boot/home/config/packages. You need to remove it manually. Tracker will now display this folder.", "OK", "warning"
+		system("/boot/system/Tracker /boot/home/config/packages")
+		if window get "PreviewWindow", "exists" =1 window close "PreviewWindow"
+		return 1
+	endif
+end sub
+

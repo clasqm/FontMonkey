@@ -1,0 +1,10 @@
+sub ParsePreviewName$(inputname$)
+	local outputname$
+	for f = 1 to len(inputname$)
+		if mid$(inputname$, f,1) <> " " then
+			outputname$ = outputname$ + mid$(inputname$, f,1)
+		endif
+	next f
+	return lower$(outputname$)
+end sub
+

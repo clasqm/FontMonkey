@@ -1,0 +1,73 @@
+sub CheckConnection()
+	local connected, connected$, getout
+	view 0,0 to 142,400, "PrelimView", "MainWindow"
+	textedit 0,0 to 142,400, "PrelimText", 0, "PrelimView"
+	textedit color "PrelimText", "bgcolor", 185,185,185
+	textedit set "PrelimText", "editable", 0
+	textedit add "PrelimText", "Welcome to\n"
+	textedit add "PrelimText", "FontMonkey.\n\n"
+	textedit add "PrelimText", "Running checks ...\n\n"
+	
+	
+	//check if we are running on a modern version of haiku
+	/////////////////////////////////////////////////////////////////////////////////////
+	textedit add "PrelimText", "Checking Haiku  ...\n"
+	if FileExists("/boot/system/bin/pkgman") then
+		textedit add "PrelimText", "OK, pkgman found.\n\n"
+		pause 0.1
+	else
+		alert "This does not look like a Haiku installation with package management.", "OK", "warning" 
+		return 1
+	endif
+	close #1
+	
+	//check if the system font folder exists
+	////////////////////////////////////////////////////////////
+	textedit add "PrelimText", "Checking fonts  ...\n"
+	if FileExists("/boot/system/data/fonts") then
+		textedit add "PrelimText", "OK, fonts found.\n\n"
+		pause 0.1
+	else
+		alert "It looks like this Haiku installation is damaged - no system font folder was found.", "OK", "warning" 
+		return 1
+	endif
+	close #1
+	
+	//check if internet connection is live by pinging a google server
+	/////////////////////////////////////////////////////////////////////////////////////////////////
+	while(connected = 0)
+		textedit add "PrelimText", "Checking internet  ...\n"
+		connected$=system$("ping -c 1 216.58.223.36")
+		if instr(connected$, "64 bytes from 216.58.223.36") = 0 then
+			getout = alert "Internet connection is required for this program. Please switch on your connection", "OK","Quit","","warning"
+			if getout = 2 return 1
+		else
+			textedit add "PrelimText", "OK, connected.\n\n"
+			connected =1
+			pause 0.1
+		endif	
+	wend
+	
+	//check if my repo is loaded
+	///////////////////////////////////////////
+	connected = 0
+	while(connected = 0)
+		textedit add "PrelimText", "Checking repo ...\n"
+		connected$ = system$("pkgman list-repos")
+		if instr(connected$, "clasqm's repo") = 0 then
+			getout = alert "This program requires that the clasqm repository be added to your repo list. Proceed?", "OK","Quit","","warning"
+			if getout = 2 then
+				return 1
+			else
+				system("pkgman add-repo clasquin-johnson.co.za/michel/repo")
+			endif
+		else
+			textedit add "PrelimText", "OK, repo found.\n\n"
+			connected = 1
+			pause 0.5
+		endif
+	wend
+	view remove "PrelimView"
+	return 0
+end sub
+
