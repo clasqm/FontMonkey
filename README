@@ -9,7 +9,7 @@ This program does not manage fonts like the Liberation, SIL or Libertine familie
 
 An internet connection is required. FontMonkey checks your connection on startup and will ask you to connect before proceeding. It also checks if you have the clasqm repo loaded in your package management system.
 
-This version comes loaded with 107 fonts. More will be added as new font packages are added to the repo and old ones are converted to work with this format.
+More fonts will be added as new font packages are added to the repo and old ones are converted to work with this format.
 
 
 This code is released into the Public Domain.
