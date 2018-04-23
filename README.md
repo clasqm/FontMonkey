@@ -1,4 +1,4 @@
-FontMonkey
+# FontMonkey
 by Michel Clasquin-Johnson
 
 Written in yab using the Yabadabbadoo IDE
@@ -13,3 +13,7 @@ More fonts will be added as new font packages are added to the repo and old ones
 
 
 This code is released into the Public Domain.
+
+Get it here: https://github.com/clasqm/FontMonkey
+
+Binaries: https://sourceforge.net/projects/fontmonkey/
